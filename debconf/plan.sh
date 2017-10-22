@@ -40,4 +40,5 @@ do_build() {
 
 do_install() {
   prefix=$pkg_prefix make install
+  fix_interpreter "usr/share/debconf/*" core/perl bin/perl
 }
