@@ -40,5 +40,7 @@ do_build() {
 
 do_install() {
   prefix=$pkg_prefix make install
-  fix_interpreter "usr/share/debconf/*" core/perl bin/perl
+  fix_interpreter usr/share/debconf/frontend core/perl bin/perl
+  fix_interpreter usr/share/debconf/fix_db.p core/perl bin/perl
+  fix_interpreter usr/share/debconf/transition_db.pl core/perl bin/perl
 }
