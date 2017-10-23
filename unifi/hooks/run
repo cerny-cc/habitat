@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# redirect stderr
+exec 2>&1
+
+exec {{pkgPathFor "cerny-cc/commons-daemon"}}/bin/jsvc \
+ -nodetach \
+ -debug \
+ -home {{pkgPathFor "core/jre8"}} \
+ -cp {{pkgPathFor "cerny-cc/commons-daemon"}}/java/commons-daemon.jar:{{pkg.path}}/lib/ace.jar \
+ -pidfile {{pkg.svc_var_path}}/run/unifi/unifi.pid \
+ -procname unifi \
+ -Dunifi.datadir={{pkg.svc_data_path}} \
+ -Dunifi.logdir={{pkg.svc_var_path}}/log/unifi \
+ -Dunifi.rundir={{pkg.svc_var_path}}/run/unifi \
+ -Xmx{{cfg.java.heap_max}} \
+ -Xss{{cfg.java.stack_size}} \
+ -Dfile.encoding=UTF-8 \
+ com.ubnt.ace.Launcher start

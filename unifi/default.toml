@@ -1,3 +1,48 @@
 # Use this file to templatize your application's native configuration files.
 # See the docs at https://www.habitat.sh/docs/create-packages-configure/.
 # You can safely delete this file if you don't need it.
+
+data_retention_days = 365
+is_default = false
+# uuid="2e531bcb-9541-4b8f-a334-b58d9d7c7f8d"
+
+[java]
+heap_max = "1024M"
+stack_size = "4M"
+
+[unifi.http]
+port = 8080
+
+[unifi.https]
+port = 8443
+ciphers = "TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA"
+sslEnabledProtocols = "TLSv1,SSLv2Hello"
+
+[unifi.https.hsts]
+hsts = false
+max_age = 31536000
+preload = false
+subdomain = false
+
+[portal.http]
+port = 8880
+
+[portal.https]
+port = 8843
+
+[portal.redirector]
+port = 8881
+
+[portal.redirector.wired]
+port = 8882
+
+[unifi.db]
+port = 27117
+nojournal = false
+extraargs = ""
+
+[unifi.stun]
+port = 3478
+
+[unifi.throughput]
+port = 6789
