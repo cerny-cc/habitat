@@ -8,30 +8,26 @@ pkg_shasum="2a3ea4acd0a9ca01eec5398e2cfd9c582b0b389237f55aa8cd2cccfcd42ee128"
 pkg_deps=(core/jre8 cerny-cc/commons-daemon)
 pkg_build_deps=(cerny-cc/dpkg cerny-cc/debconf core/diffutils core/procps-ng core/perl)
 pkg_lib_dirs=(lib)
-# pkg_include_dirs=(include)
 pkg_bin_dirs=(bin)
-# pkg_pconfig_dirs=(lib/pconfig)
-# pkg_svc_run="usr/lib/unifi/bin/unifi.init start"
-# Export Volumes:
-# /usr/lib/unifi/conf
-# /usr/lib/unifi/dl
-# pkg_exports=(
-#   [host]=srv.address
-#   [port]=srv.port
-#   [ssl-port]=srv.ssl.port
-# )
-# pkg_exposes=(port ssl-port)s
+pkg_exports=(
+  [unifi-http-port]=unifi.http.port
+  [unifi-https-port]=unifi.https.port
+  [portal-http-port]=portal.http.port
+  [portal-https-port]=portal.https.port
+)
+pkg_exposes=(
+  unifi-http-port
+  unifi-https-port
+  portal-http-port
+  portal-https-port
+)
 pkg_binds=(
   [database]="port"
 )
-# pkg_binds_optional=(
-#   [storage]="port host"
-# )
-# pkg_interpreters=(bin/bash)
-# pkg_svc_user="hab"
-# pkg_svc_group="$pkg_svc_user"
-# pkg_description="Some description."
-# pkg_upstream_url="http://example.com/project-name"
+pkg_svc_user="hab"
+pkg_svc_group="$pkg_svc_user"
+pkg_description="Ubiquiti UniFi Controller"
+pkg_upstream_url="https://unifi-sdn.ubnt.com/"
 
 do_unpack() {
   return 0
@@ -55,5 +51,6 @@ do_install() {
 }
 
 do_strip() {
+  # We're not building anything, so don't strip anything.
   return 0
 }

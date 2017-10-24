@@ -3,17 +3,33 @@
 # redirect stderr
 exec 2>&1
 
-exec {{pkgPathFor "cerny-cc/commons-daemon"}}/bin/jsvc \
- -nodetach \
- -debug \
- -home {{pkgPathFor "core/jre8"}} \
- -cp {{pkgPathFor "cerny-cc/commons-daemon"}}/java/commons-daemon.jar:{{pkg.path}}/lib/ace.jar \
- -pidfile {{pkg.svc_var_path}}/run/unifi/unifi.pid \
- -procname unifi \
- -Dunifi.datadir={{pkg.svc_data_path}} \
- -Dunifi.logdir={{pkg.svc_var_path}}/log/unifi \
- -Dunifi.rundir={{pkg.svc_var_path}}/run/unifi \
- -Xmx{{cfg.java.heap_max}} \
- -Xss{{cfg.java.stack_size}} \
- -Dfile.encoding=UTF-8 \
- com.ubnt.ace.Launcher start
+export JAVA_HOME={{pkgPathFor "core/jre8"}}
+
+BASEDIR="{{pkg.svc_data_path}}"
+DATADIR="$BASEDIR/data"
+LOGDIR="$BASEDIR/logs"
+RUNDIR="$BASEDIR/run"
+PIDFILE="${RUNDIR}/{{pkg.name}}.pid"
+JSVCDIR={{pkgPathFor "cerny-cc/commons-daemon"}}
+MAINCLASS="com.ubnt.ace.Launcher"
+
+JVM_EXTRA_OPTS="${JVM_EXTRA_OPTS} -Dunifi.datadir=${DATADIR} -Dunifi.logdir=${LOGDIR} -Dunifi.rundir=${RUNDIR}"
+{{~#each cfg.java}}
+JVM_EXTRA_OPTS="${JVM_EXTRA_OPTS} -{{@key}}{{this}}"
+{{~/each}}
+
+JVM_OPTS="${JVM_EXTRA_OPTS} -Djava.awt.headless=true -Dfile.encoding=UTF-8"
+
+JSVC="${JSVCDIR}/bin/jsvc"
+
+JSVC_OPTS="${JSVC_OPTS}\
+ -home ${JAVA_HOME} \
+ -cp ${JSVCDIR}/lib/commons-daemon.jar:${BASEDIR}/lib/ace.jar \
+ -pidfile ${PIDFILE} \
+ -procname {{pkg.name}} \
+ -outfile SYSLOG \
+ -errfile SYSLOG \
+ ${JSVC_EXTRA_OPTS} \
+ ${JVM_OPTS}"
+
+exec ${JSVC} ${JSVC_OPTS} ${MAINCLASS} start

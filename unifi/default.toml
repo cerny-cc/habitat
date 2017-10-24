@@ -5,10 +5,11 @@
 data_retention_days = 365
 is_default = false
 # uuid="2e531bcb-9541-4b8f-a334-b58d9d7c7f8d"
-
+# UNIFI_SSL_KEYSTORE = ""
 [java]
-heap_max = "1024M"
-stack_size = "4M"
+Xms = "1024M"
+Xmx = "1024M"
+Xss = "4M"
 
 [unifi.http]
 port = 8080

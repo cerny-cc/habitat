@@ -9,7 +9,7 @@ pkg_source_bin="http://mirrors.gigenet.com/apache/${pkg_name/-/\/}/binaries/${pk
 pkg_shasum_bin="0dab09bd0d2028000367a6d5c1592b92c71b561a3f98838f6162ae1623e139d8"
 pkg_deps=()
 pkg_build_deps=(core/gcc core/make core/coreutils core/jdk8/8u131)
-# pkg_lib_dirs=(lib)
+pkg_lib_dirs=(lib)
 # pkg_include_dirs=(include)
 pkg_bin_dirs=(bin)
 # pkg_pconfig_dirs=(lib/pconfig)
@@ -44,5 +44,6 @@ do_install() {
   mkdir -p $pkg_prefix/java
   mv $HAB_CACHE_SRC_PATH/$pkg_dirname/NOTICE.txt $pkg_prefix
   mv $HAB_CACHE_SRC_PATH/$pkg_dirname/jsvc $pkg_prefix/bin
-  mv $HAB_CACHE_SRC_PATH/$pkg_dirname/*.jar $pkg_prefix/java
+  mv $HAB_CACHE_SRC_PATH/$pkg_dirname/*.jar $pkg_prefix/lib
+  ln -s $pkg_prefix/lib/commons-daemon-$pkg_version.jar $pkg_prefix/lib/commons-daemon.jar
 }

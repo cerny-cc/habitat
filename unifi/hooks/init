@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# redirect stderr
+exec 2>&1
+
+export JAVA_HOME={{pkgPathFor "core/jre8"}}
+
+dir_symlink_fix() {
+	DSTDIR=$1
+	SYMLINK=$2
+
+	[ -d ${DSTDIR} ] || mkdir -p ${DSTDIR}
+	[ -d ${SYMLINK} -a ! -L ${SYMLINK} ] && mv ${SYMLINK} `mktemp -u ${SYMLINK}.XXXXXXXX`
+	[ "$(readlink ${SYMLINK})" = "${DSTDIR}" ] || (rm -f ${SYMLINK} && ln -sf ${DSTDIR} ${SYMLINK})
+}
+
+file_symlink_fix() {
+	DSTFILE=$1
+	SYMLINK=$2
+
+	if [ -f ${DSTFILE} ]; then
+		[ -f ${SYMLINK} -a ! -L ${SYMLINK} ] && mv ${SYMLINK} `mktemp -u ${SYMLINK}.XXXXXXXX`
+		[ "$(readlink ${SYMLINK})" = "${DSTFILE}" ] || (rm -f ${SYMLINK} && ln -sf ${DSTFILE} ${SYMLINK})
+	fi
+}
+
+for dir in bin lib webapps
+do
+  dir_symlink_fix "{{pkg.path}}/$dir" "{{pkg.svc_data_path}}/$dir"
+done
+
+# dl work data logs run
+for dir in work data logs run
+do
+  mkdir -p "{{pkg.svc_data_path}}/$dir"
+done
+
+cp -r "{{pkg.path}}/dl" "{{pkg.svc_data_path}}"
+
+{{~#if cfg.unifi.ssl.keystore}}
+  file_symlink_fix "{{cfg.unifi.ssl.keystore}}" "{{pkg.svc_data_path}}/keystore"
+{{~/if}}

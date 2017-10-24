@@ -31,7 +31,7 @@ pkg_build_deps=(
   core/zlib
 )
 pkg_bin_dirs=(bin sbin)
-# pkg_include_dirs=(include)
+pkg_include_dirs=(include)
 pkg_lib_dirs=(lib)
 
 do_build() {
