@@ -1,5 +1,5 @@
 pkg_name=unifi
-pkg_origin=cerny-cc
+pkg_origin=ncerny
 pkg_version="5.5.24"
 pkg_maintainer="Nathan Cerny <ncerny@gmail.com>"
 pkg_license=('Apache-2.0')
