@@ -5,7 +5,7 @@ pkg_maintainer="Nathan Cerny <ncerny@gmail.com>"
 pkg_license=('Apache-2.0')
 pkg_source="http://dl.ubnt.com/${pkg_name}/${pkg_version}/unifi_sysvinit_all.deb"
 pkg_shasum="2a3ea4acd0a9ca01eec5398e2cfd9c582b0b389237f55aa8cd2cccfcd42ee128"
-pkg_deps=(core/jre8 cerny-cc/commons-daemon)
+pkg_deps=(core/jre8 cerny-cc/commons-daemon core/mongodb)
 pkg_build_deps=(cerny-cc/dpkg cerny-cc/debconf core/diffutils core/procps-ng core/perl)
 pkg_lib_dirs=(lib)
 pkg_bin_dirs=(bin)
@@ -21,10 +21,10 @@ pkg_exposes=(
   portal-http-port
   portal-https-port
 )
-pkg_binds=(
-  [database]="port"
-)
-pkg_svc_user="hab"
+# pkg_binds=(
+#   [database]="port"
+# )
+pkg_svc_user="root"
 pkg_svc_group="$pkg_svc_user"
 pkg_description="Ubiquiti UniFi Controller"
 pkg_upstream_url="https://unifi-sdn.ubnt.com/"

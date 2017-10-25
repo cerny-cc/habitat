@@ -40,3 +40,7 @@ cp -r "{{pkg.path}}/dl" "{{pkg.svc_data_path}}"
 {{~#if cfg.unifi.ssl.keystore}}
   file_symlink_fix "{{cfg.unifi.ssl.keystore}}" "{{pkg.svc_data_path}}/keystore"
 {{~/if}}
+
+file_symlink_fix "{{pkgPathFor "core/mongodb"}}/bin/mongod" "{{pkg.path}}/bin/mongod"
+
+file_symlink_fix "{{pkg.svc_path}}/config/system.properties" "{{pkg.svc_data_path}}/system.properties"

@@ -29,6 +29,7 @@ JSVC_OPTS="${JSVC_OPTS}\
  -procname {{pkg.name}} \
  -outfile SYSLOG \
  -errfile SYSLOG \
+ -nodetach \
  ${JSVC_EXTRA_OPTS} \
  ${JVM_OPTS}"
 
