@@ -3,12 +3,14 @@
 # redirect stderr
 exec 2>&1
 
+source {{pkg.svc_path}}/config/properties.sh
+
 export JAVA_HOME={{pkgPathFor "core/jre8"}}
 
-BASEDIR="{{pkg.svc_data_path}}"
-DATADIR="$BASEDIR/data"
-LOGDIR="$BASEDIR/logs"
-RUNDIR="$BASEDIR/run"
+BASEDIR="{{pkg.svc_static_path}}"
+DATADIR="{{pkg.svc_data_path}}"
+LOGDIR="{{pkg.svc_path}}/logs"
+RUNDIR="{{pkg.svc_var_path}}"
 PIDFILE="${RUNDIR}/{{pkg.name}}.pid"
 JSVCDIR={{pkgPathFor "cerny-cc/commons-daemon"}}
 MAINCLASS="com.ubnt.ace.Launcher"
@@ -24,6 +26,7 @@ JSVC="${JSVCDIR}/bin/jsvc"
 
 JSVC_OPTS="${JSVC_OPTS}\
  -home ${JAVA_HOME} \
+ -cwd {{pkg.svc_static_path}} \
  -cp ${JSVCDIR}/lib/commons-daemon.jar:${BASEDIR}/lib/ace.jar \
  -pidfile ${PIDFILE} \
  -procname {{pkg.name}} \
@@ -32,7 +35,5 @@ JSVC_OPTS="${JSVC_OPTS}\
  -nodetach \
  ${JSVC_EXTRA_OPTS} \
  ${JVM_OPTS}"
-
-source {{pkg.svc_path}}/config/properties.sh
 
 exec ${JSVC} ${JSVC_OPTS} ${MAINCLASS} start
