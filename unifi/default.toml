@@ -3,9 +3,7 @@
 # You can safely delete this file if you don't need it.
 
 data_retention_days = 365
-is_default = false
-uuid="e7c98894-3c2d-4b0f-a31a-9e040f34ab5e"
-# UNIFI_SSL_KEYSTORE = ""
+
 [java]
 Xms = "1024M"
 Xmx = "1024M"

@@ -33,4 +33,6 @@ JSVC_OPTS="${JSVC_OPTS}\
  ${JSVC_EXTRA_OPTS} \
  ${JVM_OPTS}"
 
+source {{pkg.svc_path}}/config/properties.sh
+
 exec ${JSVC} ${JSVC_OPTS} ${MAINCLASS} start
